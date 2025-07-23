@@ -1,18 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
-const categories = [
-  { name: "전자제품", slug: "electronics" },
-  { name: "의류", slug: "clothing" },
-  { name: "가구/가전제품", slug: "furniture" },
-  { name: "생필품", slug: "daily" },
-  { name: "뷰티/미용", slug: "beauty" },
-  { name: "도서", slug: "books" },
-  { name: "반려동물용품", slug: "pet" },
-  { name: "기타", slug: "other" },
-  { name: "찜", slug: "wishlist" },
-];
+import { categories } from "../models/categories";
 
 const trendingKeywords = [
   "무선 이어폰",
@@ -29,18 +18,15 @@ export default function HomePage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % rotatingItems.length);
-    }, 3000);
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="flex justify-between items-center p-4">
-        <div className="text-2xl font-bold">땅근</div>
-        <button className="px-4 py-2 border rounded">로그인</button>
-      </header>
       <main className="flex-grow p-4 flex flex-col items-center">
-        <div className="flex items-center h-8 overflow-hidden mb-4 relative">
+        {/* 회전 텍스트 */}
+        <div className="relative flex items-center h-8 overflow-hidden mb-4 relative bg-red-500 w-full">
           <div
             className="absolute transition-transform duration-500"
             style={{ transform: `translateY(-${index * 100}%)` }}
@@ -53,6 +39,8 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+
+        {/* 검색창 */}
         <div className="w-full max-w-md mb-4">
           <div className="flex">
             <input
@@ -77,6 +65,8 @@ export default function HomePage() {
             </button>
           </div>
         </div>
+
+        {/* 인기 검색어 */}
         <div className="w-full max-w-md mb-4">
           <div className="flex flex-wrap">
             {trendingKeywords.map((kw, i) => (
@@ -86,6 +76,8 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+
+        {/* 카테고리 버튼 */}
         <div className="w-full max-w-4xl mb-4">
           <div className="grid grid-cols-5 gap-4 mb-4">
             {categories.slice(0, 5).map((cat) => (
