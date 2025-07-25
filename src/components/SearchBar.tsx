@@ -13,20 +13,20 @@ const trendingKeywords = [
   "청소기",
 ];
 
-export default function SearchBar({ height = "2.5rem" }: SearchBarProps) {
+export default function SearchBar({ height = "45px" }: SearchBarProps) {
   return (
-    <div className="w-full mb-4 flex flex-col">
+    <div className="w-full mb-4 flex flex-col items-center">
       {/* 검색창 + 돋보기 버튼 */}
       <div
-        className="flex items-center w-full rounded-full border border-black overflow-hidden px-10"
+        className="flex items-center w-full rounded-full border border-black overflow-hidden px-3"
         style={{ height }}
       >
         <input
           type="text"
           placeholder="검색어를 입력하세요"
-          className="grow focus:outline-none bg-red-500"
+          className="pl-2 grow focus:outline-none"
         />
-        <button className="p-2 ml-2 cursor-pointer">
+        <button className="pl-2 cursor-pointer">
           <svg
             width="24"
             height="24"

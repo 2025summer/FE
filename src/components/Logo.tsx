@@ -9,12 +9,12 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({
   width = 80,
-  height = 80,
+  height = 45,
   className = "",
 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 300 400"
+    viewBox="0 0 480 323"
     width={width}
     height={height}
     className={className}
