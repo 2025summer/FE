@@ -57,7 +57,9 @@ export default function RootLayout({
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className={`${gothic.className} h-full flex justify-center`}>
+      <body
+        className={`${gothic.className} h-full flex justify-center bg-white`}
+      >
         {/* 이 wrapper에 max-w, px, py 등 레이아웃 관련 스타일을 모두 줍니다 */}
         <div className="w-full max-w-[1350px] px-5">
           <Header />

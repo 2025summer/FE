@@ -39,8 +39,7 @@ export default function HomePage() {
           ))}
         </div>
       </div>
-      <div className="w-200">
-
+      <div className="w-1/2 flex justify-center">
         <SearchBar />
       </div>
 
