@@ -11,22 +11,27 @@ const trendingKeywords = [
   "핸드백",
   "책상",
   "청소기",
+  "에어컨",
+  "냉장고",
+  "피아노",
+  "노트북",
+  "컴퓨터",
 ];
 
 export default function SearchBar({ height = "45px" }: SearchBarProps) {
   return (
-    <div className="w-full mb-4 flex flex-col items-center">
+    <div className="mb-4 flex w-full flex-col items-center">
       {/* 검색창 + 돋보기 버튼 */}
       <div
-        className="flex items-center w-full rounded-full border border-black overflow-hidden px-3"
+        className="flex w-full items-center overflow-hidden rounded-full border border-black px-3"
         style={{ height }}
       >
         <input
           type="text"
           placeholder="검색어를 입력하세요"
-          className="pl-2 grow focus:outline-none"
+          className="grow pl-2 focus:outline-none"
         />
-        <button className="pl-2 cursor-pointer">
+        <button className="cursor-pointer pl-2">
           <svg
             width="24"
             height="24"
@@ -43,10 +48,10 @@ export default function SearchBar({ height = "45px" }: SearchBarProps) {
       </div>
 
       {/* 인기 검색어 */}
-      <div className="flex flex-wrap mt-2">
-        <span className="font-semibold mr-2">인기검색어</span>
+      <div className="no-scrollbar mt-2 flex w-full gap-2 overflow-auto whitespace-nowrap">
+        <span className="font-semibold">인기검색어</span>
         {trendingKeywords.map((kw, i) => (
-          <span key={i} className="text-gray-600 hover:underline mr-2">
+          <span key={i} className="text-gray-600 hover:underline">
             #{kw}
           </span>
         ))}
