@@ -4,6 +4,7 @@ import Link from "next/link";
 import { categories } from "../models/categories";
 import SearchBar from "@/components/SearchBar";
 import RotatingTextLib from "@/components/RotatingTextLib";
+import CategoryTabs from "@/components/CategoryTab";
 
 const rotatingItems = ["에어컨", "TV", "냉장고", "세탁기", "노트북"];
 
@@ -29,31 +30,7 @@ export default function HomePage() {
         <SearchBar />
       </div>
 
-      {/* 카테고리 버튼 */}
-      <div className="mb-4 w-full max-w-4xl">
-        <div className="mb-4 grid grid-cols-5 gap-4">
-          {categories.slice(0, 5).map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/category/${cat.slug}`}
-              className="rounded border p-4 text-center hover:bg-gray-100"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-        <div className="grid grid-cols-4 gap-4">
-          {categories.slice(5).map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/category/${cat.slug}`}
-              className="rounded border p-4 text-center hover:bg-gray-100"
-            >
-              {cat.name}
-            </Link>
-          ))}
-        </div>
-      </div>
+      <CategoryTabs categories={categories} />
     </main>
   );
 }
