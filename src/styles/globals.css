@@ -14,6 +14,8 @@
   --color-foreground: var(--foreground);
   --color-maincolor-500: oklch(0.6814 0.2136 40.06);
   --color-maincolor-300: oklch(0.7429 0.1672 40.06);
+  --color-gray-300: #efefef;
+  --color-orange-300: #ffbf76;
 }
 
 @media (prefers-color-scheme: dark) {

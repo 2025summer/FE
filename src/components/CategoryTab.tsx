@@ -13,13 +13,13 @@ interface CategoryTabsProps {
 
 export default function CategoryTabs({ categories }: CategoryTabsProps) {
   return (
-    <div className="mb-4 w-full max-w-4xl">
+    <div className="mb-4 flex w-full max-w-170 flex-col items-center justify-center">
       <div className="mb-4 grid grid-cols-5 gap-4">
         {categories.slice(0, 5).map((cat) => (
           <Link
             key={cat.slug}
             href={`/category/${cat.slug}`}
-            className="flex flex-col items-center rounded border p-4 text-center hover:bg-gray-100"
+            className="flex w-32 flex-col items-start gap-3 rounded-xl bg-gray-300 p-4 text-center transition duration-150 hover:bg-gray-200"
           >
             <img
               src={`/images/${cat.slug}.svg`}
@@ -30,12 +30,16 @@ export default function CategoryTabs({ categories }: CategoryTabsProps) {
           </Link>
         ))}
       </div>
-      <div className="grid grid-cols-4 gap-4">
-        {categories.slice(5).map((cat) => (
+      <div className="grid max-w-150 grid-cols-4 gap-3">
+        {categories.slice(5).map((cat, idx) => (
           <Link
             key={cat.slug}
             href={`/category/${cat.slug}`}
-            className="flex flex-col items-center rounded border p-4 text-center hover:bg-gray-100"
+            className={`flex w-32 flex-col items-start gap-3 rounded-xl p-4 text-center transition duration-150 hover:bg-gray-100 ${
+              idx == 3
+                ? "bg-orange-300 hover:bg-orange-200"
+                : "bg-gray-300 hover:bg-gray-200"
+            }`}
           >
             <img
               src={`/images/${cat.slug}.svg`}

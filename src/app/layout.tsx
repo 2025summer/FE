@@ -60,11 +60,13 @@ export default function RootLayout({
       <body
         className={`${gothic.className} flex h-full justify-center bg-white`}
       >
-        {/* 이 wrapper에 max-w, px, py 등 레이아웃 관련 스타일을 모두 줍니다 */}
-        <div className="w-full max-w-[1350px] px-5">
-          <Header />
-          <ScrollToTop />
-          <main>{children}</main>
+        <div className="flex h-full w-full flex-col items-center">
+          {/* 이 wrapper에 max-w, px, py 등 레이아웃 관련 스타일을 모두 줍니다 */}
+          <div className="w-full max-w-[1350px] px-5">
+            <Header />
+            <ScrollToTop />
+            <main>{children}</main>
+          </div>
           <Footer />
         </div>
       </body>
