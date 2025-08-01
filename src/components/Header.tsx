@@ -11,7 +11,7 @@ export default function Header() {
         </Link>
         <nav className="flex items-center gap-4">
           <Link
-            href="/login"
+            href="/auth/login"
             className="bg-maincolor-500 rounded px-5 py-1 text-white"
           >
             로그인

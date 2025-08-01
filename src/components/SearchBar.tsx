@@ -48,7 +48,7 @@ export default function SearchBar({ height = "45px" }: SearchBarProps) {
       </div>
 
       {/* 인기 검색어 */}
-      <div className="no-scrollbar mt-2 flex w-full justify-center gap-2 overflow-auto whitespace-nowrap">
+      <div className="no-scrollbar mt-2 flex w-full justify-center gap-2 overflow-auto text-sm whitespace-nowrap">
         <span className="font-semibold">인기검색어</span>
         {trendingKeywords.map((kw, i) => (
           <span key={i} className="text-gray-600 hover:underline">

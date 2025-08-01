@@ -12,6 +12,8 @@
   --color-foreground: var(--foreground);
   --color-maincolor-500: oklch(0.6814 0.2136 40.06);
   --color-maincolor-300: oklch(0.7429 0.1672 40.06);
+  --color-kakao: #fee500;
+  --color-naver: #03c75a;
   --color-gray-300: #efefef;
   --color-orange-300: #ffbf76;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -125,6 +127,27 @@ body {
 }
 
 @layer base {
+  /* 웹킷 자동완성 배경 제거 & 텍스트 색상 유지 */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: #000;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input:autofill,
+  input:autofill:hover,
+  input:autofill:focus,
+  input:autofill:active {
+    -webkit-text-fill-color: #000;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

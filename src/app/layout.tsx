@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import React from "react";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
 import "../styles/globals.css";
@@ -41,9 +41,7 @@ const gothic = localFont({
 export const metadata: Metadata = {
   title: "땅근",
   description: "실시간 중고경매거래 사이트",
-  icons: {
-    icon: "/favicon.ico",
-  },
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({
@@ -61,9 +59,8 @@ export default function RootLayout({
         className={`${gothic.className} flex h-full justify-center bg-white`}
       >
         <div className="flex h-full w-full flex-col items-center">
-          {/* 이 wrapper에 max-w, px, py 등 레이아웃 관련 스타일을 모두 줍니다 */}
           <div className="w-full max-w-[1350px] px-5">
-            <Header />
+            <SiteHeader />
             <ScrollToTop />
             <main>{children}</main>
           </div>
