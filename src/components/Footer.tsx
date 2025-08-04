@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="mt-12 w-full bg-gray-100 py-4">
       <div className="container mx-auto text-center text-sm text-gray-600">
-        <p>© 2025 경매사이트. All rights reserved.</p>
+        <p>© 2025 땅근. All rights reserved.</p>
         <div className="mt-2 flex justify-center gap-4">
           <a href="#" className="hover:text-indigo-600">
             About

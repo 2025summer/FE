@@ -2,9 +2,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import TermsModal from "@/components/modals/termsModal";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
+  const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
@@ -21,11 +23,6 @@ export default function SignUpPage() {
     // TODO: 회원가입 처리 로직
   };
 
-  const checkEmailDuplicate = () => {
-    // TODO: 이메일 중복 확인 API 호출
-    console.log("이메일 중복 확인: ", email);
-  };
-
   const handlePasswordChange = (value: string) => {
     setPassword(value);
   };
@@ -34,14 +31,22 @@ export default function SignUpPage() {
     setConfirmPassword(value);
   };
 
+  const checkEmailDuplicate = async () => {
+    // TODO: 실제 이메일 중복 확인 API 호출
+    // mock: 이메일 끝에 "ok" 포함 시 사용 가능
+    const available = email.endsWith("ok");
+    setEmailAvailable(available);
+  };
+
   const openAddressModal = () => setShowAddressModal(true);
   const closeAddressModal = () => setShowAddressModal(false);
 
   const openTermsModal = () => setShowTermsModal(true);
   const closeTermsModal = () => setShowTermsModal(false);
 
-  const passwordsMatch =
-    password && confirmPassword && password === confirmPassword;
+  const passwordsMatch = password === confirmPassword;
+
+  const confirmEntered = confirmPassword.length > 0;
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -55,7 +60,19 @@ export default function SignUpPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* 이메일 */}
           <div>
-            <label className="mb-1 block font-medium">이메일</label>
+            <label className="mb-1 flex items-baseline justify-start gap-3 font-medium">
+              <span>이메일</span>
+              {emailAvailable === true && (
+                <small className="text-green-600">
+                  사용 가능한 아이디입니다.
+                </small>
+              )}
+              {emailAvailable === false && (
+                <small className="text-red-600">
+                  사용할 수 없는 아이디입니다.
+                </small>
+              )}
+            </label>
             <div className="flex">
               <input
                 type="email"
@@ -68,16 +85,16 @@ export default function SignUpPage() {
               <button
                 type="button"
                 onClick={checkEmailDuplicate}
-                className="ml-2 rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+                className="bg-maincolor-500 hover:bg-maincolor-300 ml-2 cursor-pointer rounded px-4 py-2 text-white"
               >
-                중복확인
+                중복 확인
               </button>
             </div>
           </div>
 
           {/* 비밀번호 */}
           <div>
-            <label className="mb-1 block flex items-center font-medium">
+            <label className="mb-1 flex items-center font-medium">
               비밀번호
             </label>
             <input
@@ -92,11 +109,18 @@ export default function SignUpPage() {
 
           {/* 비밀번호 확인 */}
           <div>
-            <label className="mb-1 block flex justify-between font-medium">
+            <label className="mb-1 flex items-baseline justify-start gap-3 font-medium">
               <span>비밀번호 확인</span>
-              {passwordsMatch && (
-                <small className="text-green-600">비밀번호가 일치합니다.</small>
-              )}
+              {confirmEntered &&
+                (passwordsMatch ? (
+                  <small className="text-green-600">
+                    비밀번호가 일치합니다.
+                  </small>
+                ) : (
+                  <small className="text-red-600">
+                    비밀번호가 일치하지 않습니다.
+                  </small>
+                ))}
             </label>
             <input
               type="password"
@@ -110,7 +134,7 @@ export default function SignUpPage() {
 
           {/* 이름 */}
           <div>
-            <label className="mb-1 block font-medium">이름</label>
+            <label className="mb-1 font-medium">이름</label>
             <input
               type="text"
               name="name"
@@ -123,7 +147,7 @@ export default function SignUpPage() {
 
           {/* 핸드폰 */}
           <div>
-            <label className="mb-1 block font-medium">핸드폰 번호</label>
+            <label className="mb-1 font-medium">핸드폰 번호</label>
             <input
               type="tel"
               name="phone"
@@ -136,7 +160,7 @@ export default function SignUpPage() {
 
           {/* 주소 검색 */}
           <div>
-            <label className="mb-1 block flex justify-between font-medium">
+            <label className="mb-1 flex justify-between font-medium">
               <span>주소(우편번호)</span>
             </label>
             <div className="flex">
@@ -144,20 +168,20 @@ export default function SignUpPage() {
                 type="text"
                 value={postalCode}
                 readOnly
-                placeholder="우편번호"
-                className="w-full rounded border border-gray-300 bg-transparent px-4 py-2 focus:outline-none"
+                placeholder="00000"
+                className="w-30 rounded border border-gray-300 bg-gray-300 px-4 py-2 text-center focus:outline-none"
               />
               <button
                 type="button"
                 onClick={openAddressModal}
-                className="ml-2 rounded bg-gray-200 px-4 py-2 hover:bg-gray-300"
+                className="bg-maincolor-500 hover:bg-maincolor-300 ml-2 cursor-pointer rounded px-4 py-2 text-white"
               >
                 주소 검색
               </button>
             </div>
           </div>
           <div>
-            <label className="mb-1 block font-medium">상세주소</label>
+            <label className="mb-1 font-medium">상세주소</label>
             <input
               type="text"
               value={addressDetail}
@@ -168,7 +192,7 @@ export default function SignUpPage() {
           </div>
 
           {/* 이용약관 */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-baseline justify-start gap-3">
             <div className="flex items-center">
               <input
                 id="terms"
@@ -184,7 +208,7 @@ export default function SignUpPage() {
             <button
               type="button"
               onClick={openTermsModal}
-              className="text-sm text-blue-600 hover:underline"
+              className="cursor-pointer text-sm text-gray-400 hover:underline"
             >
               자세히보기
             </button>
@@ -218,21 +242,7 @@ export default function SignUpPage() {
         )}
 
         {/* 이용약관 모달 */}
-        {showTermsModal && (
-          <div className="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black">
-            <div className="max-w-lg rounded bg-white p-6">
-              <h2 className="mb-4 text-lg font-semibold">이용약관</h2>
-              {/* TODO: 이용약관 내용 삽입 */}
-              <p>여기에 이용약관 내용이 표시됩니다.</p>
-              <button
-                onClick={closeTermsModal}
-                className="mt-4 rounded bg-blue-600 px-4 py-2 text-white"
-              >
-                닫기
-              </button>
-            </div>
-          </div>
-        )}
+        <TermsModal show={showTermsModal} onClose={closeTermsModal} />
       </div>
     </div>
   );
