@@ -34,7 +34,7 @@ export default function CategoryPage({
 
   useEffect(() => {
     // TODO: API 호출 및 필터 적용
-    const data: Item[] = Array.from({ length: 8 }).map((_, i) => ({
+    const data: Item[] = Array.from({ length: 10 }).map((_, i) => ({
       id: i + 1,
       title: `카테고리 ${categoryFilter} 상품 ${i + 1}`,
       imageUrl: `/images/item${i + 1}.jpg`,
@@ -105,7 +105,7 @@ export default function CategoryPage({
                 onChange={() => setAuctionFilterEnabled(!auctionFilterEnabled)}
                 className="mr-2 h-4 w-4 rounded border-gray-300"
               />
-              가격 설정
+              입찰가 설정
             </label>
             <div className="flex items-center gap-2">
               <input
@@ -175,7 +175,7 @@ export default function CategoryPage({
 
         {/* Items Grid */}
         <section className="flex-1">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {items.map((item) => (
               // ItemCard는 이제 Item 타입을 Props로 받습니다.
               <ItemCard key={item.id} {...item} />
@@ -183,6 +183,13 @@ export default function CategoryPage({
           </div>
         </section>
       </div>
+      {/* 글쓰기 버튼 (고정) */}
+      <Link
+        href="/item/new"
+        className="bg-maincolor-500 hover:bg-maincolor-300 fixed right-20 bottom-10 z-50 flex h-8 w-25 items-center justify-center rounded-md text-white shadow-lg"
+      >
+        <span className="text-md">+ 글쓰기</span>
+      </Link>
     </div>
   );
 }
