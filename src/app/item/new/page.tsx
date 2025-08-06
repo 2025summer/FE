@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { categories } from "@/models/categories";
 
 export default function NewItemPage() {
@@ -165,15 +166,17 @@ export default function NewItemPage() {
               >
                 {/* 대표사진 라벨 */}
                 {idx === 0 && (
-                  <span className="bg-maincolor-500 absolute top-1 left-1 rounded px-1 text-xs text-white">
+                  <span className="bg-maincolor-500 absolute top-1 left-1 z-1 rounded px-1 text-xs text-white">
                     대표사진
                   </span>
                 )}
 
-                <img
+                <Image
                   src={src}
                   alt={`preview-${idx}`}
-                  className="h-full w-full object-cover"
+                  fill
+                  unoptimized
+                  className="object-cover"
                 />
 
                 {/* hover 오버레이 */}
@@ -193,7 +196,7 @@ export default function NewItemPage() {
                     대표등록
                   </button>
                 </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-black opacity-0 transition-opacity group-hover:opacity-30" />
+                <div className="absolute inset-0 z-2 flex items-center justify-center bg-black opacity-0 transition-opacity group-hover:opacity-30" />
               </div>
             ))}
           </div>
@@ -310,12 +313,14 @@ export default function NewItemPage() {
         </div>
 
         {/* 등록 버튼 */}
-        <button
-          type="submit"
-          className="bg-maincolor-500 hover:bg-maincolor-300 w-full rounded py-2 font-medium text-white"
-        >
-          등록하기
-        </button>
+        <div className="flex w-full justify-end">
+          <button
+            type="submit"
+            className="bg-maincolor-500 hover:bg-maincolor-300 w-30 rounded py-2 font-medium text-white"
+          >
+            등록하기
+          </button>
+        </div>
       </form>
     </div>
   );

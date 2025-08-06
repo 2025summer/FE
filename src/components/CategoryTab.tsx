@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CategoryTabItem {
   name: string;
@@ -21,11 +22,14 @@ export default function CategoryTabs({ categories }: CategoryTabsProps) {
             href={`/category/${cat.slug}`}
             className="flex w-32 flex-col items-start gap-3 rounded-xl bg-gray-300 p-4 text-center transition duration-150 hover:bg-gray-200"
           >
-            <img
+            <Image
               src={`/images/${cat.slug}.svg`}
               alt={cat.name}
+              width={24}
+              height={24}
               className="mb-2 h-6 w-6"
             />
+
             <span className="font-medium">{cat.name}</span>
           </Link>
         ))}
@@ -41,9 +45,11 @@ export default function CategoryTabs({ categories }: CategoryTabsProps) {
                 : "bg-gray-300 hover:bg-gray-200"
             }`}
           >
-            <img
+            <Image
               src={`/images/${cat.slug}.svg`}
               alt={cat.name}
+              width={24}
+              height={24}
               className="mb-2 h-6 w-6"
             />
             <span className="font-medium">{cat.name}</span>

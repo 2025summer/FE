@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Heart } from "lucide-react";
 import type { Item } from "@/models/item";
 
@@ -19,11 +20,14 @@ export default function ItemCard({
     <Link href={`/item/${id}`} className="group block">
       <div className="mb-5 overflow-hidden bg-white">
         {/* 이미지 */}
-        <div className="aspect-square w-full rounded-lg bg-gray-100">
+        <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
           {!hasError ? (
-            <img
+            <Image
               src={imageUrl}
               alt={title}
+              width={24}
+              height={24}
+              unoptimized
               className="h-full w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
               onError={() => setHasError(true)}
             />

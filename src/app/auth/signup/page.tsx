@@ -12,7 +12,6 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [postalCode, setPostalCode] = useState("");
-  const [address, setAddress] = useState("");
   const [addressDetail, setAddressDetail] = useState("");
   const [termsChecked, setTermsChecked] = useState(false);
   const [showAddressModal, setShowAddressModal] = useState(false);
