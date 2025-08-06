@@ -1,10 +1,17 @@
 import React from "react";
 
-export default function ItemDetailPage({ params }: { params: { id: string } }) {
+type PageParams = Promise<{ id: string }>;
+
+export default async function ItemDetailPage({
+  params,
+}: {
+  params: PageParams;
+}) {
+  const { id } = await params;
   // TODO: API 호출로 상세 데이터 가져오기
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">상품 상세 #{params.id}</h1>
+      <h1 className="text-3xl font-bold">상품 상세 #{id}</h1>
       <div className="flex h-64 w-full items-center justify-center rounded bg-gray-200">
         <span className="text-gray-500">상품 이미지</span>
       </div>
