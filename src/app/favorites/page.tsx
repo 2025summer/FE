@@ -8,6 +8,7 @@ export default function FavoritesPage() {
     imageUrl: `/images/item${i + 1}.jpg`,
     currentBid: 2000 + i * 500,
     timeRemaining: "00:30:00",
+    instantBuyPrice: 5000 + i * 1000,
   }));
 
   return (
