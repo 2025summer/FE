@@ -223,19 +223,36 @@ export default function SignUpPage() {
           </button>
         </form>
 
-        {/* 주소 검색 모달 (스켈레톤) */}
+        {/* 주소 검색 모달 */}
         {showAddressModal && (
           <div className="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black">
-            <div className="rounded bg-white p-6">
+            <div className="w-full max-w-sm rounded bg-white p-6">
               <h2 className="mb-4 text-lg font-semibold">주소 검색</h2>
-              {/* TODO: 주소 검색 API 컴포넌트 삽입 */}
-              <p>주소 검색 기능이 들어갈 자리입니다.</p>
-              <button
-                onClick={closeAddressModal}
-                className="mt-4 rounded bg-blue-600 px-4 py-2 text-white"
-              >
-                닫기
-              </button>
+              {/* 간단히 우편번호 입력 */}
+              <input
+                type="text"
+                placeholder="우편번호 입력"
+                value={postalCode}
+                onChange={(e) => setPostalCode(e.target.value)}
+                className="w-full rounded border border-gray-300 px-4 py-2 focus:outline-none"
+              />
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  onClick={closeAddressModal}
+                  className="rounded border border-gray-300 px-4 py-2"
+                >
+                  취소
+                </button>
+                <button
+                  onClick={() => {
+                    // 모달 닫고 그대로 postalCode 상태가 반영됨
+                    closeAddressModal();
+                  }}
+                  className="bg-maincolor-500 rounded px-4 py-2 text-white"
+                >
+                  확인
+                </button>
+              </div>
             </div>
           </div>
         )}
