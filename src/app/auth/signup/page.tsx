@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import TermsModal from "@/components/modals/termsModal";
@@ -12,9 +12,10 @@ export default function SignUpPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [postalCode, setPostalCode] = useState("");
+  const [address, setAddress] = useState("");
+  const [extraAddress, setExtraAddress] = useState("");
   const [addressDetail, setAddressDetail] = useState("");
   const [termsChecked, setTermsChecked] = useState(false);
-  const [showAddressModal, setShowAddressModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,15 +38,58 @@ export default function SignUpPage() {
     setEmailAvailable(available);
   };
 
-  const openAddressModal = () => setShowAddressModal(true);
-  const closeAddressModal = () => setShowAddressModal(false);
-
   const openTermsModal = () => setShowTermsModal(true);
   const closeTermsModal = () => setShowTermsModal(false);
 
   const passwordsMatch = password === confirmPassword;
 
   const confirmEntered = confirmPassword.length > 0;
+
+  // Daum 주소 API 스크립트 로드
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
+  // 다음 주소 검색 팝업 호출
+  const openDaumPostcode = () => {
+    new (window as any).daum.Postcode({
+      oncomplete: function (data: any) {
+        let addr = ""; // 주소
+        let extra = ""; // 참고항목
+
+        if (data.userSelectedType === "R") {
+          addr = data.roadAddress;
+        } else {
+          addr = data.jibunAddress;
+        }
+
+        if (data.userSelectedType === "R") {
+          if (data.bname !== "" && /[동|로|가]$/g.test(data.bname)) {
+            extra += data.bname;
+          }
+          if (data.buildingName !== "" && data.apartment === "Y") {
+            extra +=
+              extra !== "" ? ", " + data.buildingName : data.buildingName;
+          }
+          if (extra !== "") {
+            extra = " (" + extra + ")";
+          }
+        }
+
+        setPostalCode(data.zonecode);
+        setAddress(addr);
+        setExtraAddress(extra);
+        // 상세주소 입력칸으로 포커스 이동
+        setTimeout(() => {
+          document.getElementById("addressDetail")?.focus();
+        }, 0);
+      },
+    }).open();
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -157,36 +201,46 @@ export default function SignUpPage() {
             />
           </div>
 
-          {/* 주소 검색 */}
+          {/* 주소 */}
           <div>
-            <label className="mb-1 flex justify-between font-medium">
-              <span>주소(우편번호)</span>
-            </label>
-            <div className="flex">
+            <label className="mb-1 font-medium">주소</label>
+            <div className="mb-2 flex">
               <input
                 type="text"
                 value={postalCode}
                 readOnly
-                placeholder="00000"
-                className="w-30 rounded border border-gray-300 bg-gray-300 px-4 py-2 text-center focus:outline-none"
+                placeholder="우편번호"
+                className="w-28 rounded border border-gray-300 bg-gray-100 px-4 py-2 text-center focus:outline-none"
               />
               <button
                 type="button"
-                onClick={openAddressModal}
-                className="bg-maincolor-500 hover:bg-maincolor-300 ml-2 cursor-pointer rounded px-4 py-2 text-white"
+                onClick={openDaumPostcode}
+                className="bg-maincolor-500 hover:bg-maincolor-300 ml-2 rounded px-4 py-2 text-white"
               >
                 주소 검색
               </button>
             </div>
-          </div>
-          <div>
-            <label className="mb-1 font-medium">상세주소</label>
             <input
+              type="text"
+              value={address}
+              readOnly
+              placeholder="기본 주소"
+              className="mb-2 w-full rounded border border-gray-300 bg-gray-100 px-4 py-2 focus:outline-none"
+            />
+            <input
+              type="text"
+              value={extraAddress}
+              readOnly
+              placeholder="참고항목"
+              className="mb-2 w-full rounded border border-gray-300 bg-gray-100 px-4 py-2 focus:outline-none"
+            />
+            <input
+              id="addressDetail"
               type="text"
               value={addressDetail}
               onChange={(e) => setAddressDetail(e.target.value)}
               placeholder="상세주소 입력"
-              className="w-full rounded border border-gray-300 bg-transparent px-4 py-2 focus:outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-2 focus:outline-none"
             />
           </div>
 
@@ -222,40 +276,6 @@ export default function SignUpPage() {
             가입하기
           </button>
         </form>
-
-        {/* 주소 검색 모달 */}
-        {showAddressModal && (
-          <div className="bg-opacity-50 fixed inset-0 flex items-center justify-center bg-black">
-            <div className="w-full max-w-sm rounded bg-white p-6">
-              <h2 className="mb-4 text-lg font-semibold">주소 검색</h2>
-              {/* 간단히 우편번호 입력 */}
-              <input
-                type="text"
-                placeholder="우편번호 입력"
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-                className="w-full rounded border border-gray-300 px-4 py-2 focus:outline-none"
-              />
-              <div className="mt-4 flex justify-end gap-2">
-                <button
-                  onClick={closeAddressModal}
-                  className="rounded border border-gray-300 px-4 py-2"
-                >
-                  취소
-                </button>
-                <button
-                  onClick={() => {
-                    // 모달 닫고 그대로 postalCode 상태가 반영됨
-                    closeAddressModal();
-                  }}
-                  className="bg-maincolor-500 rounded px-4 py-2 text-white"
-                >
-                  확인
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* 이용약관 모달 */}
         <TermsModal show={showTermsModal} onClose={closeTermsModal} />
