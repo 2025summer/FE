@@ -3,13 +3,15 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import TermsModal from "@/components/modals/termsModal";
+import { useSignUp } from "@/hooks/useSignUp";
+import { useRouter } from "next/navigation";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
-  const [emailAvailable, setEmailAvailable] = useState<boolean | null>(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [address, setAddress] = useState("");
@@ -17,10 +19,26 @@ export default function SignUpPage() {
   const [addressDetail, setAddressDetail] = useState("");
   const [termsChecked, setTermsChecked] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const { loading, error, emailAvailable, onCheckEmail, onSubmit } =
+    useSignUp();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: 회원가입 처리 로직
+    const res = await onSubmit({
+      username,
+      email,
+      password,
+      confirmPassword,
+      phone,
+      postalCode,
+      address,
+      extraAddress,
+      addressDetail,
+    });
+    if (res.ok) {
+      alert("회원가입 성공");
+      router.push("/auth/login");
+    }
   };
 
   const handlePasswordChange = (value: string) => {
@@ -35,7 +53,6 @@ export default function SignUpPage() {
     // TODO: 실제 이메일 중복 확인 API 호출
     // mock: 이메일 끝에 "ok" 포함 시 사용 가능
     const available = email.endsWith("ok");
-    setEmailAvailable(available);
   };
 
   const openTermsModal = () => setShowTermsModal(true);
@@ -181,8 +198,8 @@ export default function SignUpPage() {
             <input
               type="text"
               name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="이름"
               className="w-full rounded border border-gray-300 bg-transparent px-4 py-2 focus:outline-none"
             />

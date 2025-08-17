@@ -1,13 +1,24 @@
 "use client";
-import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSignIn } from "@/hooks/useSignIn";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 
 export default function LoginPage() {
-  const handleSubmit = (e: React.FormEvent) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { loading, error, onSubmit } = useSignIn();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: 로그인 처리 로직
+    const res = await onSubmit({ email, password });
+    if (res.ok) {
+      router.push("/"); // 원하는 경로
+    }
   };
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md rounded-lg border p-8">
@@ -33,9 +44,11 @@ export default function LoginPage() {
               />
             </svg>
             <input
-              type="text"
-              name="username"
-              autoComplete="username"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
               placeholder="E-mail"
               className="w-full bg-transparent focus:outline-none"
             />
@@ -61,6 +74,8 @@ export default function LoginPage() {
             <input
               type="password"
               name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
               placeholder="Password"
               className="w-full bg-transparent focus:outline-none"
@@ -70,9 +85,10 @@ export default function LoginPage() {
           {/* 로그인 버튼 */}
           <button
             type="submit"
+            disabled={loading}
             className="bg-maincolor-500 hover:bg-maincolor-300 mt-6 w-full cursor-pointer rounded py-2 font-semibold text-white"
           >
-            로그인
+            {loading ? "로그인 중..." : "로그인"}
           </button>
         </form>
 
